@@ -3,7 +3,7 @@ import mongoose, { Document } from 'mongoose';
 
 export type UserDocument = User & Document;
 
-@Schema({ timestamps: true })
+@Schema()
 export class User {
   @Prop({ required: true })
   userName: string;
@@ -15,7 +15,7 @@ export class User {
   password: string;
 
   @Prop({
-    type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Owner' }],
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     default: [],
   })
   friends: User[];

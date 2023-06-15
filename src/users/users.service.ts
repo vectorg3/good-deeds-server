@@ -1,6 +1,5 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { UserDto } from './dto/user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from './schemas/user.schema';
 import { hashPassword } from 'src/utils/hashPassword';
@@ -10,7 +9,7 @@ import { Model } from 'mongoose';
 export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
-  async create(dto: CreateUserDto) {
+  async create(dto: UserDto) {
     if (await this.findByEmail(dto.email)) {
       throw new ForbiddenException('Данная почта уже занята');
     }
@@ -29,15 +28,34 @@ export class UsersService {
     return await this.userModel.findOne({ email });
   }
 
-  async findById(id: string) {
-    return await this.userModel.findOne({ id });
+  async findById(_id: string) {
+    return await this.userModel.findOne({ _id: _id });
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(userId: string, dto: UserDto) {
+    if (await this.userModel.findOne({ email: dto.email })) {
+      throw new ForbiddenException('Такая почта уже занята');
+    }
+
+    const passwordHash = await hashPassword(dto.password);
+    await this.userModel.findByIdAndUpdate(userId, {
+      ...dto,
+      password: passwordHash,
+    });
+    return { message: 'Информация о пользователе успешно обновлена' };
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async addFriend(userId: string, friendId: string) {
+    await this.userModel.findByIdAndUpdate(userId, {
+      $push: { friends: friendId },
+    });
+    return { message: 'Пользователь успешно добавлен в друзья' };
+  }
+
+  async deleteFriend(userId: string, friendId: string) {
+    await this.userModel.findByIdAndUpdate(userId, {
+      $pull: { friends: friendId },
+    });
+    return { message: 'Пользователь успешно удалён из друзей' };
   }
 }
