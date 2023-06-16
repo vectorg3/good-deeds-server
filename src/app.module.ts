@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { DeedsModule } from './deeds/deeds.module';
 import { APP_FILTER } from '@nestjs/core';
 import { ValidationErrorFilter } from './validation/validation-error.filter';
+import { FriendsModule } from './friends/friends.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { ValidationErrorFilter } from './validation/validation-error.filter';
     MongooseModule.forRoot(process.env.DB_CONNECTION),
     AuthModule,
     DeedsModule,
+    FriendsModule,
   ],
   controllers: [AppController],
   providers: [

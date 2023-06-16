@@ -44,18 +44,4 @@ export class UsersService {
     });
     return { message: 'Информация о пользователе успешно обновлена' };
   }
-
-  async addFriend(userId: string, friendId: string) {
-    await this.userModel.findByIdAndUpdate(userId, {
-      $push: { friends: friendId },
-    });
-    return { message: 'Пользователь успешно добавлен в друзья' };
-  }
-
-  async deleteFriend(userId: string, friendId: string) {
-    await this.userModel.findByIdAndUpdate(userId, {
-      $pull: { friends: friendId },
-    });
-    return { message: 'Пользователь успешно удалён из друзей' };
-  }
 }
