@@ -31,6 +31,7 @@ export class UsersService {
   async getUser(_id: string) {
     const user = await this.userModel.findOne({ _id: _id });
     return {
+      _id: user._id,
       userName: user.userName,
       email: user.email,
       friends: user.friends,
