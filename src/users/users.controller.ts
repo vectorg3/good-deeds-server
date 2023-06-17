@@ -14,7 +14,7 @@ export class UsersController {
 
   @Get('/me')
   async getMe(@UserId() _id: string) {
-    return await this.usersService.findById(_id);
+    return await this.usersService.getUser(_id);
   }
 
   @Patch('/')

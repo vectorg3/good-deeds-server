@@ -20,16 +20,21 @@ export class UsersService {
     });
   }
 
-  async findAll() {
-    return await this.userModel.find();
-  }
-
   async findByEmail(email: string) {
     return await this.userModel.findOne({ email });
   }
 
   async findById(_id: string) {
     return await this.userModel.findOne({ _id: _id });
+  }
+
+  async getUser(_id: string) {
+    const user = await this.userModel.findOne({ _id: _id });
+    return {
+      userName: user.userName,
+      email: user.email,
+      friends: user.friends,
+    };
   }
 
   async update(userId: string, dto: UserDto) {
