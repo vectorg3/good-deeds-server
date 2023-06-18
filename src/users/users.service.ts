@@ -39,7 +39,12 @@ export class UsersService {
   }
 
   async update(userId: string, dto: UserDto) {
-    if (await this.userModel.findOne({ email: dto.email })) {
+    const user = await this.userModel.findById(userId);
+    if (
+      user &&
+      user.email !== dto.email &&
+      (await this.userModel.findOne({ email: dto.email }))
+    ) {
       throw new ForbiddenException('Такая почта уже занята');
     }
 

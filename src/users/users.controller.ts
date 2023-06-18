@@ -17,7 +17,7 @@ export class UsersController {
     return await this.usersService.getUser(_id);
   }
 
-  @Patch('/')
+  @Patch('/me')
   async update(@UserId() userId: string, @Body() dto: UserDto) {
     return this.usersService.update(userId, dto);
   }
