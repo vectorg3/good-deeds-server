@@ -37,12 +37,16 @@ export class DeedsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() dto: DeedDto) {
-    return this.deedsService.update(id, dto);
+  update(
+    @UserId() userId: string,
+    @Param('id') id: string,
+    @Body() dto: DeedDto
+  ) {
+    return this.deedsService.update(userId, id, dto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.deedsService.remove(id);
+  remove(@UserId() userId: string, @Param('id') id: string) {
+    return this.deedsService.remove(userId, id);
   }
 }
