@@ -26,6 +26,11 @@ export class DeedsController {
     return this.deedsService.create(dto, userId);
   }
 
+  @Get('/friend/:id')
+  friendsDeeds(@Param('id') friendId: string) {
+    return this.deedsService.findAll(friendId);
+  }
+
   @Get()
   findAll(@UserId() userId: string) {
     return this.deedsService.findAll(userId);
