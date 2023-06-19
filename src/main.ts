@@ -8,7 +8,7 @@ import { ValidationErrorException } from './validation/validation-error.exceptio
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: false });
   app.enableCors({ credentials: true, origin: true });
-  const PORT = process.env.PORT || 5000;
+  const PORT = process.env.APP_PORT || 5000;
 
   const config = new DocumentBuilder()
     .setTitle('Добрые дела')
